@@ -1,0 +1,93 @@
+CREATE TABLE Employee_Audit (
+    operation_type VARCHAR2(10),
+    employee_id NUMBER,
+    operation_date DATE
+);
+
+
+CREATE TABLE Employees7 (
+    id NUMBER PRIMARY KEY,
+    name VARCHAR2(100)
+);
+
+
+CREATE OR REPLACE TRIGGER Employee_Delete_Audit1
+AFTER DELETE ON Employees7
+FOR EACH ROW
+BEGIN
+    INSERT INTO Employee_Audit (operation_type, employee_id, operation_date)
+    VALUES ('DELETE', :OLD.id, SYSDATE);
+END;
+
+CREATE OR REPLACE TRIGGER Employee_Update_Audit1
+AFTER UPDATE ON Employees7
+FOR EACH ROW
+BEGIN
+    INSERT INTO Employee_Audit (operation_type, employee_id, operation_date)
+    VALUES ('UPDATE', :NEW.id, SYSDATE);
+END;
+
+INSERT INTO Employees7 (id, name) VALUES (1, 'neha');
+INSERT INTO Employees7 (id, name) VALUES (2, 'unnati');
+
+UPDATE Employees7 SET name = 'Pravin' WHERE id = 1;
+
+DELETE FROM Employees7 WHERE id = 2;
+
+
+SELECT * FROM Employee_Audit;
+SELECT * FROM Employees7;
+
+---------------------------------------------------------------------------------------------------------------------------------CREATE TABLE emp1 (
+empid NUMBER,
+ename VARCHAR2(50),
+age NUMBER,
+job VARCHAR2(30),
+salary decimal(9,2)
+);
+
+INSERT ALL
+INTO emp1 (empid, ename,age,job,salary) VALUES (1001, &#39;Nisarg Patil&#39;,25, &#39;Developer&#39;, 60000)
+INTO emp1 (empid, ename,age,job,salary) VALUES (1002, &#39;Ajay Mali&#39;,26, &#39;Analyst&#39;, 45000)
+INTO emp1 (empid, ename,age, job,salary) VALUES (1003, &#39;Vishal Kolhe&#39;,27, &#39;Manager&#39;,100000)
+SELECT 1 FROM dual;
+
+CREATE TABLE Employee_Audit (
+operation_type VARCHAR2(10),
+employee_id NUMBER,
+operation_date DATE
+);
+
+CREATE OR REPLACE TRIGGER Employee_Audit_Trigger1
+BEFORE INSERT OR UPDATE OR DELETE ON Employee10
+FOR EACH ROW
+BEGIN
+IF INSERTING THEN
+INSERT INTO Employee_Audit (operation_type, employee_id, operation_date)
+VALUES ('INSERT', :NEW.ID, SYSDATE);
+
+ELSIF UPDATING THEN
+INSERT INTO Employee_Audit (operation_type, employee_id, operation_date)
+VALUES ('UPDATE', :OLD.ID, SYSDATE);
+
+ELSIF DELETING THEN
+INSERT INTO Employee_Audit (operation_type, employee_id, operation_date)
+VALUES ('DELETE', :OLD.ID, SYSDATE);
+
+END IF;
+END;
+/
+
+SELECT * FROM Employee10;
+
+INSERT INTO Employee10 VALUES (1004, 'Shubham', 28, 'Mumbai', 48000);
+
+UPDATE emp1
+
+SET salary = 71000
+WHERE ID = 2;
+
+DELETE FROM emp1
+WHERE age = 21;
+
+SELECT * FROM Employee_Audit;
