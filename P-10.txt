@@ -1,0 +1,34 @@
+CREATE OR REPLACE FUNCTION calculate_gross_salary (basic_salary NUMBER)
+RETURN NUMBER
+IS
+    DA            NUMBER;
+    HRA           NUMBER;
+    PF            NUMBER;
+    gross_salary  NUMBER;
+BEGIN
+    -- Calculating DA, HRA, and PF
+    DA := basic_salary * 0.4;
+    HRA := basic_salary * 0.2;
+    PF := basic_salary * 0.12;
+
+    -- Calculating gross salary
+    gross_salary := basic_salary + DA + HRA - PF;
+
+    RETURN gross_salary;
+END;
+
+-- Accepting basic salary from user
+DECLARE
+    basic_salary_input NUMBER;
+    gross_salary_output NUMBER;
+BEGIN
+    -- Accepting basic salary from user
+    basic_salary_input := :basic_salary;
+
+    -- Calling the function to calculate gross salary
+    gross_salary_output := calculate_gross_salary(basic_salary_input);
+
+    -- Displaying the gross salary
+    DBMS_OUTPUT.PUT_LINE('Gross Salary: ' || gross_salary_output);
+END;
+/
