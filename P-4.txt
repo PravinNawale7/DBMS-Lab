@@ -1,0 +1,67 @@
+CREATE TABLE Sailor1(sid integer, sname varchar(20), rating integer, age real);
+INSERT INTO Sailor1 VALUES(22, 'Dustin', 7, 45.0);
+INSERT INTO Sailor1 VALUES(29, 'Brutus', 1, 33.0);
+INSERT INTO Sailor1 VALUES(31, 'Lubber', 8, 55.5);
+INSERT INTO Sailor1 VALUES(32, 'Andy', 8, 25.5);
+INSERT INTO Sailor1 VALUES(58, 'Rusty', 10, 35.0);
+INSERT INTO Sailor1 VALUES(64, 'Horatio', 7, 35.0);
+INSERT INTO Sailor1 VALUES(71, 'Zorba', 10, 16.0);
+INSERT INTO Sailor1 VALUES(74, 'Horatio', 9, 35.0);
+INSERT INTO Sailor1 VALUES(85, 'Art', 3, 25.5);
+INSERT INTO Sailor1 VALUES(95, 'Bob', 3, 63.5);
+select * from Sailor1;
+
+CREATE TABLE Boat1(bid integer, bname varchar(20), color varchar(20));
+INSERT INTO Boat1 VALUES(101, 'Interlake', 'blue');
+INSERT INTO Boat1 VALUES(102, 'Interlake', 'red');
+INSERT INTO Boat1 VALUES(103, 'Clipper', 'green');
+INSERT INTO Boat1 VALUES(104, 'Marine', 'red');
+select * from Boat1;
+
+CREATE TABLE Reserves1(sid integer, bid integer, day date);
+INSERT INTO Reserves1 VALUES(22, 101, TO_DATE('10/10/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(22, 102, TO_DATE('10/10/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(22, 103, TO_DATE('10/8/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(22, 104, TO_DATE('10/7/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(31, 102, TO_DATE('11/10/98', 'MM/DD/YY')); 
+INSERT INTO Reserves1 VALUES(31, 103, TO_DATE('11/6/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(31, 104, TO_DATE('12/12/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(64, 101, TO_DATE('9/5/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(64, 102, TO_DATE('9/8/98', 'MM/DD/YY'));
+INSERT INTO Reserves1 VALUES(74, 103, TO_DATE('9/8/98', 'MM/DD/YY'));
+select * from Reserves1;
+
+Find the minimum age of sailors for each rating level.
+SELECT rating, MIN(age) AS min_age
+FROM Sailor1 GROUP BY rating; 
+
+Find number of boats of each color.
+SELECT color, COUNT(*) AS num_boats
+FROM Boat1
+GROUP BY color; 
+
+Find the age of the oldest sailor for each rating level. Print rating level also.
+SELECT rating, MAX(age) AS max_age
+FROM Sailor1 GROUP BY rating; 
+
+Find the number of reservations of each boat in descending order of boat id.
+SELECT bid, COUNT(*) AS num_reservations
+FROM Reserves1
+GROUP BY bid ORDER BY bid DESC; 
+
+Find the average age of sailors for each rating level that has at least two sailors.
+SELECT rating, AVG(age) AS avg_age
+FROM Sailor1
+GROUP BY rating
+HAVING COUNT(*) >= 2; 
+
+Find the age of the youngest sailor who is eligible to vote (i.e., at least 18 years old) for each rating level. 
+SELECT rating, MIN(age) AS min_age
+FROM Sailor1
+WHERE age >= 18 GROUP BY rating; 
+
+Print sailors name and date of boat reservation in ascending order of date of reservation. 
+SELECT s.sname, r.day
+FROM Sailor1 s
+JOIN Reserves r ON s.sid = r.sid ORDER BY r.day ASC; 
+
