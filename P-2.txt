@@ -1,0 +1,87 @@
+CREATE TABLE employee11
+( emp_id varchar2(50) NOT NULL,
+ person_name varchar2(50) NOT NULL,
+ street_name varchar2(50) NOT NULL,
+ city number(10),
+ CONSTRAINT employee_pk primary key(emp_id)
+);
+
+desc employee11
+
+CREATE TABLE works
+( id number(10) NOT NULL,
+ company_name varchar2(50) NOT NULL,
+ CONSTRAINT WORKS_PK primary key(id)
+);
+
+desc works
+
+CREATE TABLE company
+(
+ company_name varchar2(50) NOT NULL,
+ city varchar2(20),
+ CONSTRAINT company_PK primary key(company_name)
+);
+
+desc company
+
+CREATE TABLE manages
+(
+ id number(10) NOT NULL,
+ manager_id number(10) NOT NULL,
+ CONSTRAINT manages_PK primary key(id)
+);
+
+desc manages
+
+alter table works add salary integer;
+
+desc works
+
+alter table employee11 modify city varchar2(50);
+
+desc employee11
+
+alter table employee11 drop column street_name;
+
+desc employee11
+
+alter table manages rename column manager_id to manager;
+
+desc manages
+
+ALTER TABLE company RENAME TO CMP;
+
+describe CMP
+
+drop table manages;
+
+
+
+CREATE TABLE employee104
+( emp_number number(10) NOT NULL,
+ emp_name varchar2(50) NOT NULL,
+ designation varchar2(50) NOT NULL,
+ city varchar(10),
+ salary number(20),
+ zipcode number(10),
+ country varchar(20)
+);
+
+describe employee104
+
+insert into employee104 values(d1.nextval,'Pravin','developer','nashik','60000','422010','india');
+insert into employee104 values(d1.nextval,'Nisarg','tester','nashik','45000','422012','india');
+
+
+create sequence d1 start with 2 increment by 1;
+
+describe employee104
+
+create INDEX ind ON employee104(country);
+
+create view salary_nashik_employee104 AS
+select * from employee104
+where salary < 50000 and city = 'nashik';   
+
+SELECT * FROM salary_nashik_employee104    
