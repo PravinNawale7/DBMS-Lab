@@ -1,0 +1,94 @@
+CREATE TABLE employees6 (
+    id number primary key,
+    name VARCHAR2(100),
+    address VARCHAR2(200),
+    salary NUMBER,
+    age NUMBER,
+    category VARCHAR2(6)
+);
+INSERT INTO employees6 (id, name, address, salary, age, category)
+VALUES (1,'Pravin', 'nashik', 50000, 24, 'Young');
+
+INSERT INTO employees6 (id, name, address, salary, age, category)
+VALUES (2,'Nisarg', 'nashik', 60000, 50, 'Old');
+
+INSERT INTO employees6 (id, name, address, salary, age, category)
+VALUES (3,'Ajay', 'nashik', 70000, 60, 'Old');
+
+INSERT INTO employees6 (id,name, address, salary, age, category)
+VALUES (4,'unnati', 'nashik', 55000, 25, 'Young');
+
+select * from employees6;
+
+DECLARE
+    emp_name employees6.name%TYPE;
+    emp_address employees6.address%TYPE;
+    emp_salary employees6.salary%TYPE;
+    emp_age employees6.age%TYPE;
+    emp_category employees6.category%TYPE;
+   
+    young_count NUMBER := 0;
+    old_count NUMBER := 0;
+    
+    CURSOR emp_cursor IS
+        SELECT name, address, salary, age, category
+        FROM employees6;
+BEGIN
+    
+    OPEN emp_cursor;
+    
+    LOOP
+        FETCH emp_cursor INTO emp_name, emp_address, emp_salary, emp_age, emp_category;
+        EXIT WHEN emp_cursor%NOTFOUND;
+        
+        IF emp_age < 30 THEN
+            emp_category := 'Young';
+            young_count := young_count + 1;
+        ELSE
+            emp_category := 'Old';
+            old_count := old_count + 1;
+        END IF;
+
+        DBMS_OUTPUT.PUT_LINE('Name: ' || emp_name || ', Address: ' || emp_address || ', Salary: ' || emp_salary || ', Age: ' || emp_age || ', Age Category: ' || emp_category);
+    END LOOP;
+    CLOSE emp_cursor;
+
+    DBMS_OUTPUT.PUT_LINE('Number of Young Employees: ' || young_count);
+    DBMS_OUTPUT.PUT_LINE('Number of Old Employees: ' || old_count);
+END;
+/
+-----------------------------------------------------------------------------------------------
+DECLARE
+    emp_name employee.name%TYPE;
+    emp_address employee.address%TYPE;
+    emp_salary employee.salary%TYPE;
+    emp_age NUMBER;
+    young_count NUMBER := 0;
+    old_count NUMBER := 0;
+
+    CURSOR emp_cursor IS
+        SELECT name, address, salary, age
+        FROM employee;
+BEGIN
+    OPEN emp_cursor;
+
+    LOOP
+        FETCH emp_cursor INTO emp_name, emp_address, emp_salary, emp_age;
+        EXIT WHEN emp_cursor%NOTFOUND;
+
+        IF emp_age < 30 THEN
+            DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name || ', Address: ' || emp_address || ', Salary: ' || emp_salary || ', Age Category: Young');
+            young_count := young_count + 1;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name || ', Address: ' || emp_address || ', Salary: ' || emp_salary || ', Age Category: Old');
+            old_count := old_count + 1;
+        END IF;
+    END LOOP;
+
+    CLOSE emp_cursor;
+
+    DBMS_OUTPUT.PUT_LINE('Young Employees Count: ' || young_count);
+    DBMS_OUTPUT.PUT_LINE('Old Employees Count: ' || old_count);
+END;
+/
+
