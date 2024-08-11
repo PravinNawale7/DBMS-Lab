@@ -1,0 +1,43 @@
+--Create database:
+           use studentdb
+--create collection :
+          db.createCollection("students")
+--insert 5 records in student collection:
+         db.students.insertMany([
+  { "stud_no" : 1, "name" : "Pravin Nawale", "address" : "Nashik", "contact" : 1234567890, "subjects" : [ "DBMS", "AWT" ], "percentage" : 85 } ,
+{"stud_no" : 2, "name" : "Nisarg Patil", "address" : "Pune", "contact" : 86234567890, "subjects" : [ "DBMS", "AWT" ], "percentage" : 80 }
+{ "stud_no" : 3, "name" : "Ajay Mali", "address" : "Jalgoan", "contact" : 5634726536, "subjects" : [ "DBMS", "AWT" ], "percentage" : 90 }
+{ "stud_no" : 4, "name" : "Chetan Shelake", "address" : "Akola", "contact" : 9145367456, "subjects" : [ "DBMS", "AWT" ], "percentage" : 82 }
+{ "stud_no" : 5, "name" : "Aditya Katare", "address" : "Mumbai", "contact" : 3746573546, "subjects" : [ "DBMS", "AWT" ], "percentage" : 92 }])
+    
+
+--Insert 1 more doc with additional field:
+Db.students.insertOne(
+{
+"stud_no":6,
+    "name":"Nisarg Patil",
+    "address":Jalgaon",
+    "contact":9087678978,
+    "subjects":["DBMS","AWT"],
+    "percentage":90,
+    "hobbies":["reading","painting"]
+  })
+
+--Display info of all students:
+db.students.find()
+
+--Display info of all students who have secured more than 70%:
+db.students.find({ "percentage": { $gt: 70 } })
+
+--Update the percentage of student whose stud_no is 5:
+db.students.updateOne({ "Student_number": 5 }, { $set: { "percentage": 80 } })
+
+--Delete the doc of  puja bagul  from db:
+db.students.deleteOne({ "Name": "Ajay Mali" })
+
+
+--Demonstrate the use of save() mtd:
+
+var student = db.students.findOne({ "Name": "Pravin Nawale" })
+student.Address = "Nagpur"
+db.students.save(student)
