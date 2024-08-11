@@ -1,0 +1,26 @@
+CREATE TABLE Employee1 (ID INT PRIMARY KEY, Name VARCHAR(50), Age INTEGER, Address VARCHAR(100), Salary DECIMAL(10,2));
+
+INSERT INTO Employee1 (ID, Name, Age, Address, Salary) VALUES (101, 'Nisarg Patil', 23, 'pune', 50000);
+INSERT INTO Employee1 (ID, Name, Age, Address, Salary) VALUES (102, 'Pravin Nawale', 30, 'mumbai', 55000);
+INSERT INTO Employee1 (ID, Name, Age, Address, Salary) VALUES (103, 'Ajay Mali', 42, 'dhule', 54000);
+INSERT INTO Employee1 (ID, Name, Age, Address, Salary) VALUES (104, 'Ajay Mali', 20, 'akola', 60000);
+INSERT INTO Employee1 (ID, Name, Age, Address, Salary) VALUES (105, 'Chetan Shelake', 34, 'nashik', 55000);
+
+select *from Employee1;
+ 
+DECLARE
+    min_salary NUMBER;
+BEGIN
+    SELECT MIN(Salary) INTO min_salary FROM employe;
+
+    UPDATE employe SET Salary = Salary + 5000
+    WHERE Salary = min_salary;
+
+    IF sql%notfound THEN
+        dbms_output.put_line('No employees selected');
+    ELSIF sql%found THEN
+        dbms_output.put_line('Number of employees who got a salary hike: ' || sql%rowcount);
+    END IF;
+END;
+/
+
