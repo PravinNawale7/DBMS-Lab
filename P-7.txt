@@ -1,0 +1,55 @@
+CREATE TABLE student5 (
+Rollno NUMBER,
+Name VARCHAR2(50),
+attendance NUMBER,
+status varchar(10)
+);
+INSERT INTO student5(rollno, name, attendance)
+VALUES (1, 'neha',85);
+
+INSERT INTO student5(rollno, name, attendance)
+VALUES (2, 'sayali',70);
+
+INSERT INTO student5(rollno, name, attendance)
+VALUES (3, 'manasi',75);
+
+INSERT INTO student5(rollno, name, attendance)
+VALUES (4, 'darshana',60);
+
+select * from student5;
+
+DECLARE
+    v_rollno stud.rollno%TYPE;
+    v_name stud.name%TYPE;
+    v_attendance stud.attendance%TYPE;
+    v_status stud.status%TYPE;
+BEGIN
+    v_rollno := :Enter_rollno;
+    SELECT attendance, name INTO v_attendance, v_name FROM stud WHERE rollno = v_rollno;
+
+    IF v_attendance < 75 THEN
+        DBMS_OUTPUT.PUT_LINE('Term is not granted');
+        v_status := 'D';
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Term is granted');
+        v_status := 'ND';
+    END IF;
+
+    DBMS_OUTPUT.PUT_LINE('RollNo: ' || v_rollno);
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name);
+    DBMS_OUTPUT.PUT_LINE('Attendance: ' || v_attendance);
+    DBMS_OUTPUT.PUT_LINE('Current Status: ' || v_status);
+
+
+    UPDATE stud
+    SET status = v_status
+    WHERE rollno = v_rollno;
+
+    COMMIT;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Student with Roll No ' || v_rollno || ' not found.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An error occurred');
+END;
+
